@@ -103,15 +103,8 @@ while not done:
 
 pygame.quit()
 
-# measure = 1
-# domain = int((1/measure)*(radius*2+1))
-# x = [i*measure for i in range(domain)]
-# y = [0 for i in range(domain)]
-# for i in mid_lines:
-#     for j in range(len(x)):
-#         if round(i.length, int(abs(math.log10(measure)))) <= (j+1)*measure:
-#             y[j] += 1
-#             break
+save_data = False
 
-# with open("./pickle_data/s1_y_data.pickle","wb") as fw:
-#     pickle.dump(y, fw)
+if save_data:
+    with open("./pickle_data/s1_y_data.pickle","wb") as fw:
+        pickle.dump(y, fw)
