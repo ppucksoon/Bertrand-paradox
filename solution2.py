@@ -1,3 +1,4 @@
+from functools import cache
 import pygame
 import random
 import math
@@ -41,6 +42,7 @@ class line():
         if pos == "right":
             pygame.draw.circle(screen, self.color, right_relat_coord(self.mid_pos), 1)
 
+@cache
 def font(size):
     return pygame.font.Font('./font/NotoSansKR-Medium.otf', size)
 
@@ -102,8 +104,18 @@ while not done:
 
 pygame.quit()
 
-save_data = False
+update_data = False
 
-if save_data:
+if update_data:
+    measure = 1
+    domain = int((1/measure)*(radius*2+1))
+    x = [i*measure for i in range(domain)]
+    y = [0 for i in range(domain)]
+    for i in mid_lines:
+        for j in range(len(x)):
+            if round(i.length, int(abs(math.log10(measure)))) <= (j+1)*measure:
+                y[j] += 1
+                break
+
     with open("./pickle_data/s2_y_data.pickle","wb") as fw:
         pickle.dump(y, fw)

@@ -1,3 +1,4 @@
+from functools import cache
 import pygame
 import random
 import math
@@ -41,9 +42,9 @@ class Line():
         if pos == "right":
             pygame.draw.circle(screen, self.color, right_relat_coord(self.mid_pos), 1)
 
+@cache
 def font(size):
     return pygame.font.Font('./font/NotoSansKR-Medium.otf', size)
-font50 = font(50)
 
 radius = 200
 tri_length = radius*math.sqrt(3)
@@ -94,7 +95,7 @@ while not done:
     pygame.draw.circle(screen, WHITE, mid_relat_coord((0, 0)), radius, 3)
     pygame.draw.circle(screen, WHITE, right_relat_coord((0, 0)), radius, 3)
 
-    probability_txt = font50.render(f"{count[0]/count[1]:.2f}", True, WHITE)
+    probability_txt = font(50).render(f"{count[0]/count[1]:.2f}", True, WHITE)
     probability_txt_center = probability_txt.get_rect()
     probability_txt_center.center = (size[0]//2, size[1]//8)
     screen.blit(probability_txt, probability_txt_center)
@@ -103,8 +104,18 @@ while not done:
 
 pygame.quit()
 
-save_data = False
+update_data = False
 
-if save_data:
+if update_data:
+    measure = 1
+    domain = int((1/measure)*(radius*2+1))
+    x = [i*measure for i in range(domain)]
+    y = [0 for i in range(domain)]
+    for i in mid_lines:
+        for j in range(len(x)):
+            if round(i.length, int(abs(math.log10(measure)))) <= (j+1)*measure:
+                y[j] += 1
+                break
+
     with open("./pickle_data/s1_y_data.pickle","wb") as fw:
         pickle.dump(y, fw)

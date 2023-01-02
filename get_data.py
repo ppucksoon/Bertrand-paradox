@@ -77,5 +77,8 @@ def solution(num):
             print(f"3번 풀이법 실험 소요시간 : {time.time() - start_t}초")
             return mid_lines
 
-# for i in range(1, 4):
-#     save_data(solution(i), i)
+update_data = False
+
+if update_data:
+    for i in range(1, 4):
+        save_data(solution(i), i)
